@@ -1,5 +1,17 @@
+require 'line/bot'
+
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :null_session
+
+  protect_from_forgery with: :exception
+  before_action :client
+  
+
+  def client
+    @client ||= Line::Bot::Client.new { |config|
+      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+    }
+  end
   
   private
 
