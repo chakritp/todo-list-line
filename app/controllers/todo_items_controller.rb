@@ -20,7 +20,8 @@ class TodoItemsController < ApplicationController
     # 2. task : today : time
     # 3. list
 
-    reply_text = 
+    reply_text = ""
+
     begin
       case message_text
       when 'edit'
@@ -28,16 +29,11 @@ class TodoItemsController < ApplicationController
       when 'list'
         "You Selected List"
       when /\s*(:)\s*/
-        p message_text.split(/\s*(:)\s*/).inspect
-        task = message_text.split(/\s*(:)\s*/, 3)[0]
+        task_name = message_text.split(/\s*(:)\s*/, 3)[0]
         date = message_text.split(/\s*(:)\s*/, 3)[2]
         time = message_text.split(/\s*(:)\s*/, 3)[4]
-
-        puts "task: #{task}"
-        puts "date: #{date}"
-        puts "time: #{time}"
         
-        raise if task.nil? || date.nil? 
+        raise if task_name.nil? || date.nil? 
 
         date = case date
         when 'today'
@@ -53,13 +49,19 @@ class TodoItemsController < ApplicationController
         minutes = time.split(':')[1].to_i
         date_time = DateTime.new(date.year, date.month, date.day, hours, minutes)
 
-        "Task: #{task}, Due Date: #{date_time.inspect}"
+        # Create Task
+        todo_item = TodoItem.new(name: task_name, due_date: date_time, user_id: @user.id)
+        
+        if todo_item.save
+          reply_text = "Created Task\nName: #{todo_item.name}\nDue Date: #{todo_item.due_date}"
+        end
+        # "Task: #{task_name}, Due Date: #{date_time.inspect}"
       else
         raise
       end
     rescue Exception => e
       Rails.logger.debug e.inspect
-      "Sorry but that's an invalid option. Please ensure the format is correct."
+      reply_text = "Sorry but that's an invalid option. Please ensure the format is correct."
     end
 
     reply_message = {
