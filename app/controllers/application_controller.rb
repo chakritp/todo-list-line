@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     payload = {
       grant_type: 'authorization_code',
       code: code, # wyN0w0oiQtwxqEPNJrjW
-      redirect_uri: 'https://7088a30f.ngrok.io/auth',
+      redirect_uri: ENV['REDIRECT_URI'],
       client_id: ENV['LINE_CHANNEL_ID'],
       client_secret: ENV['LINE_LOGIN_CHANNEL_SECRET']
     }

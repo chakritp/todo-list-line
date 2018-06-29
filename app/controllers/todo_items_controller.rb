@@ -21,7 +21,7 @@ class TodoItemsController < ApplicationController
     # 3. list
 
     reply_text = ""
-    auth_link = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=#{ENV['LINE_CHANNEL_ID']}&redirect_uri=#{ENV['REDIRECT_URI']}&state=#{ENV['STATE']}&scope=openid%20profile"
+    auth_link = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=#{ENV['LINE_CHANNEL_ID']}&redirect_uri=#{CGI.escape(ENV['REDIRECT_URI'])}&state=#{ENV['STATE']}&scope=openid%20profile"
 
     begin
       case message_text.downcase
