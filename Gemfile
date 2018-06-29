@@ -40,6 +40,7 @@ gem 'bootstrap', '~> 4.1.1'
 gem 'acts_as_list'
 gem 'jwt'
 gem 'touchpunch-rails'
+gem 'font-awesome-rails'
 
 
 

@@ -75,7 +75,8 @@ document.addEventListener("turbolinks:load", function() {
       if(!isValidPlacement()) {
         $("#todos").sortable('cancel')
       }
-    }
+    },
+    handle: '.move'
   })
 
   $('.list-group-item').on('change', 'input[type="checkbox"]', handleToggleCompleted)

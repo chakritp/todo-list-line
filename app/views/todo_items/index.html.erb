@@ -13,6 +13,9 @@
             toggle_important_todo_item_path(user_id: @user.id, id: todo_item.id), 
             class: "btn #{todo_item.is_important ? "btn-warning" : "btn-info" } btn-sm toggle-important" %>
           </span>
+          <span class="move">
+            <%= fa_icon 'bars'%>
+          </span>
         </li>
       <% end %>
     </ul>
