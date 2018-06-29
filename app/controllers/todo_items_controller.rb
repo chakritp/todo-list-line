@@ -79,7 +79,7 @@ class TodoItemsController < ApplicationController
   
   def index
     @user = User.find_by(id: params[:user_id])
-    @incomplete_todo_items = TodoItem.where(user_id: @user.id, is_completed: false).order(:position).order(due_date: :asc)
+    @incomplete_todo_items = TodoItem.where(user_id: @user.id, is_completed: false).order(:position).order(due_date: :asc).sort_by { |ti| ti.is_important ? 0 : 1 }
     @completed_todo_items = TodoItem.where(user_id: @user.id, is_completed: true).order(:position).order(due_date: :asc)
   end
 
