@@ -36,6 +36,7 @@ gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails', '~> 5.0'
 gem 'bootstrap', '~> 4.1.1'
 gem 'acts_as_list'
+gem 'jwt'
 
 
 group :development, :test do

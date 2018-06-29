@@ -21,13 +21,13 @@ class TodoItemsController < ApplicationController
     # 3. list
 
     reply_text = ""
+    auth_link = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=#{ENV['LINE_CHANNEL_ID']}&redirect_uri=#{ENV['REDIRECT_URI']}&state=#{ENV['STATE']}&scope=openid%20profile"
 
     begin
-      case message_text
+      case message_text.downcase
       when 'edit'
         "You Selected Edit"
-      when 'list'
-        "You Selected List"
+        reply_text = "Here is the link to edit your TODOs: #{auth_link}"
       when /\s*(:)\s*/
         task_name = message_text.split(/\s*(:)\s*/, 3)[0]
         date = message_text.split(/\s*(:)\s*/, 3)[2]
