@@ -24,6 +24,7 @@ function formatListItemContentForCompleted($listItem) {
   $listItem.removeClass('list-group-item-primary').addClass('list-group-item-light')
   $listItem.find('a.toggle-important').remove()
   $listItem.find('input[type = "checkbox"]').remove()
+  $listItem.find('span.move').remove()
 }
 
 function handleToggleImportant(e) {
