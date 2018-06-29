@@ -79,7 +79,8 @@ class TodoItemsController < ApplicationController
   
   def index
     @user = User.find_by(id: params[:user_id])
-    @todo_items = TodoItem.where(user_id: @user.id).order(:position).order(due_date: :asc)
+    @incomplete_todo_items = TodoItem.where(user_id: @user.id, is_completed: false).order(:position).order(due_date: :asc)
+    @completed_todo_items = TodoItem.where(user_id: @user.id, is_completed: true).order(:position).order(due_date: :asc)
   end
 
   def show
@@ -107,7 +108,17 @@ class TodoItemsController < ApplicationController
     end
   end
 
-  def toggle_completed
+  def mark_completed
+    todo_item = TodoItem.find_by(id: params[:id])
+
+    if todo_item.update(is_completed: !todo_item.is_completed)
+      render json: todo_item, status: 200
+    else
+      render json: {
+        errors: todo_item.errors.full_messages,
+        status: 422
+      }
+    end
   end
 
   def sort

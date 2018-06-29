@@ -14,35 +14,49 @@ function isValidPlacement() {
   return isValid
 }
 
-function setListItemContent($listItem) {
+function formatListItemContentForImportant($listItem) {
   $listItem.toggleClass('list-group-item-primary').toggleClass('important')
   $listItem.find('a').toggleClass('btn-info').toggleClass('btn-warning')
   $listItem.hasClass('important') ? $listItem.find('a').text('Mark Unimportant') : $listItem.find('a').text('Mark Important')
 }
 
+function formatListItemContentForCompleted($listItem) {
+  $listItem.removeClass('list-group-item-primary').addClass('list-group-item-light')
+  $listItem.find('a.toggle-important').remove()
+  $listItem.find('input[type = "checkbox"]').remove()
+}
+
 function handleToggleImportant(e) {
   e.preventDefault()
-  console.log('toggle important')
 
   var $listItem = $(this).parent()
   $.ajax({
     method: 'patch',
     url: this.href
-  }).done(function(data) {
-    console.log(data)
-    console.log($listItem)
-    setListItemContent($listItem)
+  }).success(function(data) {
     if(data.is_important) {
       // move to top
       $listItem.prependTo('#todos')
     } else {
       $listItem.appendTo('#todos')
     }
+    formatListItemContentForImportant($listItem)
+  }).fail(function(data){
+    alert('Something went wrong. Please try again.')
   })
 }
 
 function handleToggleCompleted() {
-  console.log('here')
+  var $listItem = $(this).parent()
+  $.ajax({
+    method: 'patch',
+    url: $(this).data('url')
+  }).success(function (data) {
+    $listItem.appendTo('#completedTodoItems')
+    formatListItemContentForCompleted($listItem)
+  }).fail(function (data) {
+    alert('Something went wrong. Please try again.')
+  })
 }
 
 document.addEventListener("turbolinks:load", function() {

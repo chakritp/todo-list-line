@@ -1,12 +1,12 @@
 <h1>My TODOs</h1>
 
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-sm-12">
     <h5>Not Completed</h5>
     <ul class="list-group" id="todos" data-url="<%= sort_todo_items_path %>">
-      <% @todo_items.each do |todo_item| %>
+      <% @incomplete_todo_items.each do |todo_item| %>
         <li class="list-group-item <%= 'list-group-item-primary important' if todo_item.is_important %>" id="<%= dom_id(todo_item) %>">
-          <input type="checkbox" value="true">
+          <input type="checkbox" value="true" class="toggle-complete" data-url="<%= mark_completed_todo_item_path(user_id: @user.id, id: todo_item.id) %>">
           <%= todo_item.name %>
           <span class="badge badge-primary badge-pill"><%= todo_item.due_date.strftime('%H:%M %e/%m/%y') %></span>
           <%= link_to todo_item.is_important ? "Mark Unimportant" : "Mark Important" , 
@@ -18,5 +18,13 @@
     </ul>
     <br>
     <h5>Completed</h5> 
+    <ul class="list-group" id="completedTodoItems">
+      <% @completed_todo_items.each do |todo_item|%>
+        <li class="list-group-item list-group-item-light">
+          <%= todo_item.name %>
+          <span class="badge badge-primary badge-pill"><%= todo_item.due_date.strftime('%H:%M %e/%m/%y') %></span>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>

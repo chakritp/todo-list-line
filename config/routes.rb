@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       end
       member do
         patch :toggle_important
-        patch :toggle_completed
+        patch :mark_completed
       end
     end
   end
