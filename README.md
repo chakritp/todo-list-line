@@ -29,3 +29,5 @@ To run in development mode:
 To run tests:
 
 1. run `bundle exec rspec`
+
+Deployed at: [https://chakritp-line-todo-list.herokuapp.com](https://chakritp-line-todo-list.herokuapp.com)
