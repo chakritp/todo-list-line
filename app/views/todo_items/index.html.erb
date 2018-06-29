@@ -5,7 +5,7 @@
     <h5>Not Completed</h5>
     <ul class="list-group" id="todos" data-url="<%= sort_todo_items_path %>">
       <% @todo_items.each do |todo_item| %>
-        <li class="list-group-item <%= 'list-group-item-primary' if todo_item.is_important %>" id="<%= dom_id(todo_item) %>">
+        <li class="list-group-item <%= 'list-group-item-primary important' if todo_item.is_important %>" id="<%= dom_id(todo_item) %>">
           <input type="checkbox" name="" id="">
           <%= todo_item.name %>
           <span class="badge badge-primary badge-pill"><%= todo_item.due_date.strftime('%H:%M %e/%m/%y') %></span>
