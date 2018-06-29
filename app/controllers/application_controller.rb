@@ -56,6 +56,7 @@ class ApplicationController < ActionController::Base
 
     get_user(line_id)
     @user.update_columns(name: name)
+    
     redirect_to todo_items_path(@user.id)
   end
 
