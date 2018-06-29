@@ -3,10 +3,8 @@ function isValidPlacement() {
   var endOfImportantGroup = false
   var isValid = true
   var $items = $('#todos').find('.list-group-item')
-  
+
   $.each($items, function(index, item) {
-    // console.log(item)
-    // console.log($(item))
     if (!$(item).hasClass('important') && !endOfImportantGroup) {
       endOfImportantGroup = true
     } else if ($(item).hasClass('important') && endOfImportantGroup) {
