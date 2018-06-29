@@ -53,7 +53,7 @@ class TodoItemsController < ApplicationController
         todo_item = TodoItem.new(name: task_name, due_date: date_time, user_id: @user.id)
         
         if todo_item.save
-          reply_text = "Created Task\nName: #{todo_item.name}\nDue Date: #{todo_item.due_date}"
+          reply_text = "Created Task\nName: #{todo_item.name}\nDue Date: #{todo_item.due_date.strftime('%H:%M %e/%m/%y')}"
         end
         # "Task: #{task_name}, Due Date: #{date_time.inspect}"
       else
