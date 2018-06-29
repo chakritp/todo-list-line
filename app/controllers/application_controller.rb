@@ -1,6 +1,7 @@
 require 'line/bot'
 require 'net/https'
 require 'open-uri'
+require 'jwt'
 
 class ApplicationController < ActionController::Base
 
@@ -46,7 +47,24 @@ class ApplicationController < ActionController::Base
     token_type = response_body['token_type']
     id_token = response_body['id_token']
 
-    redirect_to todo_items_path(user.id)
+    decoded_id_token = JWT.decode(id_token, ENV['LINE_LOGIN_CHANNEL_SECRET'], { audience: ENV['LINE_CHANNEL_ID'], issuer: 'https://access.line.me', algorithms: ['HS256'] })
+    puts decoded_id_token.inspect
+
+    line_id = decoded_id_token[0]['sub']
+    name = decoded_id_token[0]['sub']
+    picture = decoded_id_token[0]['picture']
+
+    get_user(line_id)
+    @user.update_columns(name: name)
+    redirect_to todo_items_path(@user.id)
+  end
+
+  def get_user(user_id)
+    begin
+      @user = User.find_or_create_by(line_id: user_id)
+    rescue ActiveRecord::RecordNotUnique
+      @user = User.find_by(line_id: user_id)
+    end
   end
   
   private

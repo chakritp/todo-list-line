@@ -128,14 +128,4 @@ class TodoItemsController < ApplicationController
 
     head :ok
   end
-
-  private
-
-  def get_user(user_id)
-    begin
-      @user = User.find_or_create_by(line_id: user_id)
-    rescue ActiveRecord::RecordNotUnique
-      @user = User.find_by(line_id: user_id)
-    end
-  end
 end
