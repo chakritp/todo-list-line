@@ -8,16 +8,16 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation, { :except => %w[users] })
   end
 
-  config.before(:suite) do
-    User.create(name: Faker::Name.name, line_id: 'U' + Faker::String.random(32))
-  end
-
   config.after(:each) do
     DatabaseCleaner.clean
   end
 end
 
 RSpec.describe TodoItem, :type => :model do
+  before(:each) do
+    User.create(name: Faker::Name.name, line_id: 'U' + Faker::Number.number(32))
+  end
+
   context 'when creating a new Todo Item' do
     it "should create a new record with a name, due date and user provided" do
       user = User.first
