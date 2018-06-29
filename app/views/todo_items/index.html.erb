@@ -6,10 +6,13 @@
     <ul class="list-group" id="todos" data-url="<%= sort_todo_items_path %>">
       <% @todo_items.each do |todo_item| %>
         <li class="list-group-item <%= 'list-group-item-primary important' if todo_item.is_important %>" id="<%= dom_id(todo_item) %>">
-          <input type="checkbox" name="" id="">
+          <input type="checkbox" value="true">
           <%= todo_item.name %>
           <span class="badge badge-primary badge-pill"><%= todo_item.due_date.strftime('%H:%M %e/%m/%y') %></span>
-          <%= link_to todo_item.is_important ? "Mark Not Important" : "Mark As Important" , '#', class: 'btn btn-info'%></span>
+          <%= link_to todo_item.is_important ? "Mark Unimportant" : "Mark Important" , 
+            toggle_important_todo_item_path(user_id: @user.id, id: todo_item.id), 
+            class: "btn #{todo_item.is_important ? "btn-warning" : "btn-info" } btn-sm toggle-important" %>
+          </span>
         </li>
       <% end %>
     </ul>

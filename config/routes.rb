@@ -8,7 +8,8 @@ Rails.application.routes.draw do
         patch :sort
       end
       member do
-        post :toggle_completed
+        patch :toggle_important
+        patch :toggle_completed
       end
     end
   end

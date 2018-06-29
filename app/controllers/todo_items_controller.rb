@@ -78,7 +78,8 @@ class TodoItemsController < ApplicationController
   end
   
   def index
-    @todo_items = TodoItem.where(user_id: params[:user_id]).order(:position).order(due_date: :asc)
+    @user = User.find_by(id: params[:user_id])
+    @todo_items = TodoItem.where(user_id: @user.id).order(:position).order(due_date: :asc)
   end
 
   def show
@@ -94,6 +95,16 @@ class TodoItemsController < ApplicationController
   end
 
   def toggle_important
+    todo_item = TodoItem.find_by(id: params[:id])
+
+    if todo_item.update(is_important: !todo_item.is_important)
+      render json: todo_item, status: 200
+    else
+      render json: {
+        errors: todo_item.errors.full_messages,
+        status: 422
+      }
+    end
   end
 
   def toggle_completed
