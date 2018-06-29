@@ -78,6 +78,7 @@ class TodoItemsController < ApplicationController
   end
   
   def index
+    @todo_items = TodoItem.where(user_id: params[:user_id]).order(:position).order(due_date: :asc)
   end
 
   def show
@@ -92,7 +93,18 @@ class TodoItemsController < ApplicationController
   def update
   end
 
-  def mark_completed
+  def toggle_important
+  end
+
+  def toggle_completed
+  end
+
+  def sort
+    params[:todo_item].each_with_index do |id, index|
+      TodoItem.where(id: id).update_all(position: index + 1)
+    end
+
+    head :ok
   end
 
   private
